@@ -65,36 +65,39 @@ export default function CadItemsComponent() {
   };
 
   return (
-    <Box display='flex' flexDir='row' gap={10} justifyContent='space-around' mx="auto" mt={8} p={6} borderWidth="2px" borderRadius="lg">
+    <Box display='flex' flexDir='column' maxW={'80%'} gap={10} justifyContent={'center'} mx="auto" mt={8} p={6} borderWidth="2px" borderRadius="lg">
       <form onSubmit={handleSubmit}>
-        <Box display='flex' gap={5}>
-            <FormControl id="name" mb={4}>
+        <Box display='contents'>
+          <Box display='flex' gap={10} mb={10}>
+          <FormControl id="name" mb={4}>
             <FormLabel>Name</FormLabel>
-            <Input type="text" onChange={handleChange} />
+            <Input variant='flushed' type="text" onChange={handleChange} />
             </FormControl>
             <FormControl id="photo" mb={4}>
             <FormLabel>Photo</FormLabel>
-            <Input type="file" onChange={handleChange} />
+            <Input variant='flushed' type="file" onChange={handleChange} />
             </FormControl>
             <FormControl id="price" mb={4}>
             <FormLabel>Price</FormLabel>
-            <Input type="number" onChange={handleChange} />
+            <Input variant='flushed' type="number" onChange={handleChange} />
             </FormControl>
-        </Box>
-        <Box display='flex' gap={5}>
+          </Box>
+        <Box display='flex' gap={10} mb={10}>
             <FormControl id="sellPrice" mb={4}>
             <FormLabel>Sell Price</FormLabel>
-            <Input type="number" onChange={handleChange} />
+            <Input variant='flushed' type="number" onChange={handleChange} />
             </FormControl>
             <FormControl id="amount" mb={4}>
             <FormLabel>Amount</FormLabel>
-            <Input type="number" onChange={handleChange} />
+            <Input variant='flushed' type="number" onChange={handleChange} />
             </FormControl>
             <FormControl id="minimumStock" mb={4}>
             <FormLabel>Minimum Stock</FormLabel>
-            <Input type="number" onChange={handleChange} />
+            <Input variant='flushed' type="number" onChange={handleChange} />
             </FormControl>
-            <FormControl id="category" mb={4}>
+        </Box>
+        <Box display='flex' alignItems='center' gap={10} mb={5}>
+        <FormControl id="category" mb={4}>
             <FormLabel>Category</FormLabel>
             <Select onChange={handleChange}>
                 <option value="category1">Category 1</option>
@@ -102,19 +105,20 @@ export default function CadItemsComponent() {
                 <option value="category3">Category 3</option>
             </Select>
             </FormControl>
-        </Box>
-        <Box display='flex' gap={5} alignItems='center'>
-            <FormControl id="location" mb={4}>
+          <FormControl id="location" mb={4}>
             <FormLabel>Location</FormLabel>
-            <Input type="text" onChange={handleChange} />
+            <Input variant='flushed' type="text" onChange={handleChange} />
             </FormControl>
             <FormControl id="description" mb={4}>
             <FormLabel>Description</FormLabel>
-            <Input type="text" onChange={handleChange} />
+            <Input variant='flushed' type="text" onChange={handleChange} />
             </FormControl>
-            <Button p={7} colorScheme="blue" type="submit">
+        </Box>
+        <Box display='flex' alignItems='center' justifyContent={'end'} gap={10}>
+        <Button p={7} colorScheme="blue" type="submit">
             Submit
-            </Button>
+        </Button>
+        </Box>
         </Box>
       </form>
     </Box>
