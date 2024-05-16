@@ -16,9 +16,9 @@ export default function DrawerExample() {
     return (
         <Box w='100vw'>
             <Box display='flex' justifyContent='space-between'  borderBottom='solid 1px lightgray' boxShadow="0px 1px lightgray">
-            <Box alignItems='center' display='flex' h='15vh'>
+            <Box alignItems='center' display='flex' h='12vh'>
                 <Img src={logo} w='4vw' py={1} mx={3} alt='logo'/>
-                <Text fontSize='x-large' letterSpacing="4px" fontWeight='bold' color='#06145A'>SO TEST</Text>
+                <Text fontSize='4.5vh' letterSpacing="4px" fontWeight='bold' color='#06145A'>SO TEST</Text>
             </Box>
             <Box alignItems='center' display='flex' mx={5}>
             <Menu>
@@ -37,7 +37,7 @@ export default function DrawerExample() {
             </Box>
             </Box>
             <Tabs>
-                <TabList>
+                <TabList h='8vh'>
                     <Tab color='#06145A' w='50vw'>item registration</Tab>
                     <Tab color='#06145A' w='50vw'>item view</Tab>
                 </TabList>
