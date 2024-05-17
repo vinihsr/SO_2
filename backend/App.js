@@ -1,32 +1,14 @@
-import express from 'express';
-import dotenv from 'dotenv';
+import express, { json } from 'express';
 import cors from 'cors';
-import router from './routes/ItemsRouter.js';
-import createDBConnection from './db/Db.config.js';
+import itemsRouter from './routes/ItemsRouter.js';
 
-dotenv.config();
 const app = express();
 
-app.use(express.json());
+app.use(cors());
+app.use(json());
+app.use('/api', itemsRouter);
 
-app.use(cors({
-    origin: 'http://localhost:5173',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-}));
-
-// Create database connection
-const db = createDBConnection();
-
-// Pass database connection to the router
-router.db = db;
-
-// Add item routes
-app.use('/api', router);
-
-const PORT = process.env.PORT || 3001;
-
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

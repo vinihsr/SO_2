@@ -1,35 +1,21 @@
-import createDBConnection from '../db/Db.config.js';
+import pkg from 'mysql';
+const { query } = pkg;
 
-const db = createDBConnection();
-
-export const getAllItems = () => {
-    // Implement getAllItems logic here
+export const getAllItems = async () => {
+  const [rows] = await query('SELECT * FROM items');
+  return rows;
 };
 
-export const createItem = (item) => {
-    return new Promise((resolve, reject) => {
-        db.query('INSERT INTO items SET ?', item, (error, results) => {
-            if (error) {
-                console.error('Error inserting item:', error);
-                reject(error);
-            } else {
-                resolve(results.insertId);
-            }
-        });
-    });
-};
-
-export const updateItem = (itemId, updatedItem) => {
-    // Implement updateItem logic here
-};
-
-export const deleteItem = (itemId) => {
-    // Implement deleteItem logic here
+export const addItem = async (item) => {
+  const { name, photo, description, price, sellPrice, amount, minStock, category, location } = item;
+  const [result] = await query(
+    'INSERT INTO items (name, photo, description, price, sellPrice, amount, minStock, category, location) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    [name, photo, description, price, sellPrice, amount, minStock, category, location]
+  );
+  return { id: result.insertId, ...item };
 };
 
 export default {
-    getAllItems,
-    createItem,
-    updateItem,
-    deleteItem,
+  getAllItems,
+  addItem
 };

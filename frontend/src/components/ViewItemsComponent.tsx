@@ -1,51 +1,55 @@
-import { Table, Thead, Tbody, Tr, Th, Td, Image } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
+import { Box, Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+import * as api from "../services/Api.js";
 
-export default function ViewItems() {
-  // Sample data for demonstration
-  const items = [
-    {
-      id: 1,
-      name: 'Item 1',
-      photo: 'https://via.placeholder.com/150', // Example URL for placeholder image
-      description: 'Description of item 1',
-      sellPrice: 10.99,
-      category: 'Category 1',
-    },
-    {
-      id: 2,
-      name: 'Item 2',
-      photo: 'https://via.placeholder.com/150', // Example URL for placeholder image
-      description: 'Description of item 2',
-      sellPrice: 20.99,
-      category: 'Category 2',
-    },
-    // Add more items as needed
-  ];
+export default function ViewItemsComponent() {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  const fetchItems = async () => {
+    try {
+      const response = await api.getAllItems();
+      setItems(response.data);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
+  };
 
   return (
-    <Table variant="simple">
-      <Thead>
-        <Tr>
-          <Th>Name</Th>
-          <Th>Photo</Th>
-          <Th>Description</Th>
-          <Th>Sell Price</Th>
-          <Th>Category</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {items.map((item) => (
-          <Tr key={item.id}>
-            <Td>{item.name}</Td>
-            <Td>
-              <Image src={item.photo} alt={item.name} boxSize="50px" />
-            </Td>
-            <Td>{item.description}</Td>
-            <Td>{item.sellPrice}</Td>
-            <Td>{item.category}</Td>
+    <Box display='flex' flexDir='column' maxW={'80%'} mx="auto" mt={8} p={6} borderWidth="2px" borderRadius="lg">
+      <Table variant="simple">
+        <Thead>
+          <Tr>
+            <Th>Name</Th>
+            <Th>Photo</Th>
+            <Th>Description</Th>
+            <Th>Price</Th>
+            <Th>Sell Price</Th>
+            <Th>Amount</Th>
+            <Th>Minimum Stock</Th>
+            <Th>Category</Th>
+            <Th>Location</Th>
           </Tr>
-        ))}
-      </Tbody>
-    </Table>
+        </Thead>
+        <Tbody>
+          {items.map(item => (
+            <Tr key={item.id}>
+              <Td>{item.name}</Td>
+              <Td>{item.photo}</Td>
+              <Td>{item.description}</Td>
+              <Td>{item.price}</Td>
+              <Td>{item.sellPrice}</Td>
+              <Td>{item.amount}</Td>
+              <Td>{item.minStock}</Td>
+              <Td>{item.category}</Td>
+              <Td>{item.location}</Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+    </Box>
   );
 }
