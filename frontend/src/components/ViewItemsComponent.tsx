@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Box, Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
-import * as api from "../services/Api.js";
+import * as api from "../services/Api";
 
 export default function ViewItemsComponent() {
   const [items, setItems] = useState([]);

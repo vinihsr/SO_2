@@ -1,25 +1,23 @@
-import { createConnection } from 'mysql';
+import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 
 dotenv.config(); // Load environment variables from .env file
 
-const createDBConnection = () => {
-    const connection = createConnection({
+const pool = mysql.createPool({
         host: process.env.DB_HOST,
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE
     });
 
-    connection.connect(function(err) {
+
+    pool.connect((err) => {
         if (err) {
-            console.error('Error connecting to MySQL database:', err);
-            return;
+          console.error('Erro ao conectar: ' + err.stack);
+          return;
         }
-        console.log('Connected to MySQL database successfully!');
-    });
+        console.log('Conectado como ID ' + connection.threadId);
+      });
+      
 
-    return connection;
-};
-
-export default createDBConnection;
+export default pool;

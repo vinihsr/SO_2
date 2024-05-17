@@ -1,13 +1,18 @@
-import { getAllItems as _getAllItems, addItem as _addItem } from '../models/ItemsModel.js';
+import { Items } from '../models/ItemsModel.js';
 
-export const getAllItems = async (req, res) => {
-  try {
-    const items = await _getAllItems();
-    res.json(items);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+const ItemsController = {
+  getAll: (req, res) => {
+    db.query('SELECT * FROM Items', (err, rows) => {
+      if (err) {
+        console.error('Erro ao buscar items:', err);
+        return res.status(500).json({ message: 'Erro interno do servidor.' });
+      }
+      res.json(rows);
+    });
+  },
+
+  
+}
 
 export const addItem = async (req, res) => {
   try {
@@ -19,6 +24,6 @@ export const addItem = async (req, res) => {
 };
 
 export default {
-  getAllItems,
+  ItemsController,
   addItem
 };

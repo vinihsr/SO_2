@@ -14,7 +14,7 @@ export default function DrawerExample() {
     } 
 
     return (
-        <Box w='100vw'>
+        <Box w='100%' > 
             <Box display='flex' justifyContent='space-between'  borderBottom='solid 1px lightgray' boxShadow="0px 1px lightgray">
             <Box alignItems='center' display='flex' h='12vh'>
                 <Img src={logo} w='4vw' py={1} mx={3} alt='logo'/>
