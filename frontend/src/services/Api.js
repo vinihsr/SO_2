@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3001/api';
 
-export const getAllItems = async () => {
+export const getAll = async () => {
   return await axios.get(`${API_URL}/items`);
 };
 

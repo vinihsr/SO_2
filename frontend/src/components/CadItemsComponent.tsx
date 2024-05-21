@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Box, FormControl, FormLabel, Input, Button, Select, useToast } from '@chakra-ui/react';
 import * as api from '../services/Api';
 
 export default function CadItemsComponent() {
+  const history = useLocation();
   const [item, setItem] = useState([]);
   const [nameItem, setNameItem] = useState("");
   const [photo, setPhoto] = useState("");
@@ -36,10 +38,10 @@ export default function CadItemsComponent() {
 
   const handleAddItems = async () => {
     try {
-      const response = await api.addItem({ name: nameItem, photo, description: descItem, price, sellPrice, amount, minStock, category, location });
+      const response = await api.addItem({ name: nameItem, photo, description: descItem, price, sell_price: sellPrice, amount, minimum_stock: minStock, category, location });
       setItem([...item, response.data]);
       toast({
-        title: "Item adicionado com sucesso!",
+        title: "Item adicionado com sucesso! Veja em ItemsView",
         status: "success",
         duration: 3000,
         isClosable: true,
