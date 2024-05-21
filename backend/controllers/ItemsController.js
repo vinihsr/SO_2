@@ -22,6 +22,21 @@ const ItemsController = {
       console.error('Erro ao adicionar item:', error);
       res.status(500).json({ message: 'Erro interno do servidor.' });
     }
+  },
+  
+  deleteItem: async (req, res) => {
+    const itemId = req.params.id;
+    const query = 'DELETE FROM Items WHERE id = ?';
+    try {
+      const [result] = await pool.query(query, [itemId]);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: 'Item not found.' });
+      }
+      res.json({ message: 'Item deleted successfully.' });
+    } catch (error) {
+      console.error('Error deleting item:', error);
+      res.status(500).json({ message: 'Internal server error.' });
+    }
   }
 };
 

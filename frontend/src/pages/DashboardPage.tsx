@@ -7,7 +7,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function DrawerExample() {
     const navigate = useNavigate();
-    const location = useLocation();
     const activeTab = parseInt(localStorage.getItem('activeTab')) || 0;
 
     const handleLogin = () => {

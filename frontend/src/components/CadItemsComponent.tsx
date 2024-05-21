@@ -4,7 +4,6 @@ import { Box, FormControl, FormLabel, Input, Button, Select, useToast } from '@c
 import * as api from '../services/Api';
 
 export default function CadItemsComponent() {
-  const history = useLocation();
   const [item, setItem] = useState([]);
   const [nameItem, setNameItem] = useState("");
   const [photo, setPhoto] = useState("");
