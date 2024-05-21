@@ -26,7 +26,7 @@ const ItemsController = {
   
   deleteItem: async (req, res) => {
     const itemId = req.params.id;
-    const query = 'DELETE FROM Items WHERE id = ?';
+    const query = 'DELETE FROM items WHERE id = ?';
     try {
       const [result] = await pool.query(query, [itemId]);
       if (result.affectedRows === 0) {
