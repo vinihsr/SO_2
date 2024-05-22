@@ -26,7 +26,7 @@ export default function ViewItemsComponent() {
     }
   };
 
-  const handleDeleteItem = async (itemId) => {
+  const handleDeleteItem = async (itemId: any) => {
     try {
       await api.deleteItem(itemId);
       // Update the items list after successful deletion

@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState } from 'react'; 
 import { Box, FormControl, FormLabel, Input, Button, Select, useToast } from '@chakra-ui/react';
 import * as api from '../services/Api';
 

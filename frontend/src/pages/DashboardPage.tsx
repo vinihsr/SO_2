@@ -3,7 +3,7 @@ import logo from '../assets/logo.png'; // Adjust the path based on the location 
 import { HamburgerIcon } from '@chakra-ui/icons'
 import CadItems from '../components/CadItemsComponent';
 import ViewItems from '../components/ViewItemsComponent';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function DrawerExample() {
     const navigate = useNavigate();

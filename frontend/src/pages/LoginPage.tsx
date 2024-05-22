@@ -1,48 +1,54 @@
-import { useState } from "react";
-import { Box, Input, Button, Heading, Text } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { Tabs, TabList, Tab, TabPanels, TabPanel, Box } from '@chakra-ui/react';
+import SignInComponent from '../components/SignInComponent';
+import SignUpComponent from '../components/SignUpComponent';
+import { useNavigate } from 'react-router-dom';
 
-export default function LoginPage() {
+const MainPage = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [token, setToken] = useState('');
 
-  const handleLogin = () => {
-    // Hardcoded email and password
-    const validEmail = "teste@teste.com";
-    const validPassword = "1234";
-
-    // Check if the entered email and password match the hardcoded values
-    if (email === validEmail && password === validPassword) {
-      // If match, redirect to the dashboard
-      navigate('/dashboard');
-    } else {
-      // If not match, display error message
-      setError("Invalid email or password. Please try again.");
-    }
+  // Function to handle successful sign-in
+  const handleSignIn = (token) => {
+    setToken(token);
+    navigate('/dashboard');
   };
 
-  return(
-    <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-      <Box bg="white" w={400} p={8} borderRadius={20} boxShadow="lg">
-        <Heading mb={8} textAlign="center">Log in to Your Account</Heading>
-        <Input 
-          placeholder="Email" 
-          mb={4} 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)} 
-        />
-        <Input 
-          type="password" 
-          placeholder="Password" 
-          mb={6} 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
-        />
-        {error && <Text color="red.500" mb={4}>{error}</Text>}
-        <Button colorScheme="blue" size="lg" width="100%" onClick={handleLogin}>Log In</Button>
+  // Function to handle successful sign-up
+  const handleSignUp = () => {
+    // You can perform actions after signing up, such as displaying a success message
+  };
+
+  return (
+    <Box display="flex" h="100vh" alignItems="center" justifyContent="center">
+      <Box minW="40%" minH="70%">
+        <Tabs
+          isFitted
+          variant="rouded"
+          backgroundColor="whitesmoke"
+          p={10}
+          borderRadius={20}
+          boxShadow={'20px 20px 40px lightgrey'}
+        >
+          <TabList mb="1rem">
+            <Tab _selected={{ color: 'white', bg: 'blue.500' }}>Sign In</Tab>
+            <Tab _selected={{ color: 'white', bg: 'blue.500' }}>Sign Up</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              {/* Pass handleSignIn function to SignInComponent */}
+              <SignInComponent onSignIn={handleSignIn} />
+            </TabPanel>
+            <TabPanel>
+              {/* Pass handleSignUp function to SignUpComponent */}
+              <SignUpComponent onSignUp={handleSignUp} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Box>
     </Box>
   );
-}
+};
+
+export default MainPage;
+

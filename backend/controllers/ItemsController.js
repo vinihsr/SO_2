@@ -24,10 +24,10 @@ const ItemsController = {
     }
   },
   
-  deleteItem: async (req, res) => {
+deleteItem: async (req, res) => {
     const itemId = req.params.id;
     const query = 'DELETE FROM items WHERE id = ?';
-    try {
+     try {
       const [result] = await pool.query(query, [itemId]);
       if (result.affectedRows === 0) {
         return res.status(404).json({ message: 'Item not found.' });
