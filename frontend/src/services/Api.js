@@ -14,10 +14,21 @@ export const deleteItem = async (itemId) => {
   return await axios.delete(`${API_URL}/items/${itemId}`);
 };
 
-export const signUp = async (userData) => {
-  return await axios.post(`${API_URL}/users`, userData);
-};
+const api = axios.create({
+  baseURL: API_URL
+});
 
-export const signIn = async () => { 
-  return await axios.get(`${API_URL}/users`);
-};
+api.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => Promise.reject(error)
+);
+
+export default api;
+
+

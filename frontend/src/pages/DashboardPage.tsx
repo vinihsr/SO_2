@@ -4,8 +4,16 @@ import { HamburgerIcon } from '@chakra-ui/icons'
 import CadItems from '../components/CadItemsComponent';
 import ViewItems from '../components/ViewItemsComponent';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
-export default function DrawerExample() {
+export default function DrawerExample   () {
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            navigate('/login');
+        }
+    }, [history]);
+
     const navigate = useNavigate();
     const activeTab = parseInt(localStorage.getItem('activeTab')) || 0;
 

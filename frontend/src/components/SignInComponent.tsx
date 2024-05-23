@@ -1,20 +1,24 @@
 import { useState } from 'react';
 import { Box, Button, Input, Text } from '@chakra-ui/react';
-import { signIn } from '../services/Api.js'; // Import the signIn function from Api.js
+import * as api from '../services/Api.js'; // Import the signIn function from Api.js
+import { useNavigate } from 'react-router-dom';
+
 
 const SignInComponent = ({ onSignIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSignIn = async (credentials) => {
-    try {
-      const response = await signIn(credentials);
-      const token = response.data.token; // Assuming the token is returned in the response
-      // Handle successful sign-in (e.g., store token in local storage, redirect user)
-    } catch (error) {
-      // Handle sign-in error (e.g., display error message)
-      console.error('Sign-in failed:', error);
-    }
+  const handleSignIn = async (event) => {
+      event.preventDefault();
+      try {
+          const response = await api('/api/login', { email, password });
+          const { token } = response.data;
+          localStorage.setItem('authToken', token);
+          navigate('/dashboard');
+      } catch (error) {
+          console.error('Sign-in failed:', error);
+      }
   };
 
   return (

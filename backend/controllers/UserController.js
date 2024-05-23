@@ -1,32 +1,32 @@
-import pool from '../db/Db.config.js';
+import { hash, compare } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
+import User, { findOne } from '../models/User';
 
-const UserController = {
-  addUsers: async (req, res) => {
+export async function register(req, res) {
     try {
-      const { id, email, senha } = req.body;
-      // Assuming you have a table named items with columns: name, photo, description, price, sell_price, amount, minimum_stock, category, location
-      const query = 'INSERT INTO user (id, email, senha) VALUES (?, ?, ?)';
-      const [result] = await pool.query(query, [id, email, senha]);
-      res.json({ message: 'Item adicionado com sucesso.', id: result.insertId });
-    } catch (error) {
-      console.error('Erro ao adicionar item:', error);
-      res.status(500).json({ message: 'Erro interno do servidor.' });
+        const { id, email, senha } = req.body;
+        const hashedPassword = await hash(senha, 10);
+        const user = new User({ id, email, senha: hashedPassword });
+        await user.save();
+        res.status(201).send('User registered successfully');
+    } catch (err) {
+        res.status(500).send('Server error');
     }
-  },
-  
-  LogUser: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const query = 'SELECT * FROM user WHERE id = ?'; // Modify the query to select data
-      const [rows] = await pool.query(query, [id]);
-      res.json(rows);
-    } catch (error) {
-      console.error('Erro ao buscar items:', error);
-      res.status(500).json({ message: 'Erro interno do servidor.' });
-    }
-  }
-  
-};
+}
 
-export { UserController };
+export async function login(req, res) {
+    try {
+        const { email, senha } = req.body;
+        const user = await findOne({ email });
+        if (!user) return res.status(400).send('Invalid email or senha');
+
+        const isMatch = await compare(senha, user.senha);
+        if (!isMatch) return res.status(400).send('Invalid email or senha');
+
+        const token = sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.json({ token });
+    } catch (err) {
+        res.status(500).send('Server error');
+    }
+}
 
