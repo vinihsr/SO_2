@@ -10,7 +10,6 @@ const MainPage = () => {
 
   // Function to handle successful sign-in
   const handleSignIn = (token) => {
-    setToken(token);
     navigate('/dashboard');
   };
 
@@ -41,7 +40,7 @@ const MainPage = () => {
             </TabPanel>
             <TabPanel>
               {/* Pass handleSignUp function to SignUpComponent */}
-              <SignUpComponent onSignUp={handleSignUp} />
+              <SignUpComponent OnSignUp={handleSignUp} />
             </TabPanel>
           </TabPanels>
         </Tabs>

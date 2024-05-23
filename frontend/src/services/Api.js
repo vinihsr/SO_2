@@ -15,9 +15,9 @@ export const deleteItem = async (itemId) => {
 };
 
 export const signUp = async (userData) => {
-  return await axios.post(`${API_URL}/users/register`, userData); // Registering a new user
+  return await axios.post(`${API_URL}/users`, userData);
 };
 
-export const signIn = async (credentials) => { 
-  return await axios.post(`${API_URL}/users/login`, credentials);
+export const signIn = async () => { 
+  return await axios.get(`${API_URL}/users`);
 };

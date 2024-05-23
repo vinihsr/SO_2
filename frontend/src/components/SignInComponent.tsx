@@ -5,7 +5,6 @@ import { signIn } from '../services/Api.js'; // Import the signIn function from 
 const SignInComponent = ({ onSignIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
 
   const handleSignIn = async (credentials) => {
     try {

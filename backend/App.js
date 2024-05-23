@@ -10,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.json())
 app.use(json());
 app.use('/api', itemsRouter);
-app.use('/api/users', UserRouter);
+app.use('/api', UserRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

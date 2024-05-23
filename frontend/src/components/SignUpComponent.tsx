@@ -1,21 +1,51 @@
 import { useState } from 'react';
-import { Box, Button, Input, Text  } from '@chakra-ui/react';
-import { signUp } from '../services/Api.js'; // Import the signUp function from Api.js
+import { Box, Button, Input, Text, useToast  } from '@chakra-ui/react';
+import * as api from '../services/Api.js';
 
-const SignUpComponent = ({ onSignUp }) => {
+const SignUpComponent = ({OnSignUp}) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [senha, setSenha] = useState('');
+  const [user, setUser] = useState([]);
+  const toast = useToast();
 
-  const handleSignUp = async (userData) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const response = await signUp(userData);
-      const message = response.data.message; // Assuming a success message is returned
-      // Handle successful sign-up (e.g., display success message, redirect user)
+      if (!email || !senha) {
+        throw new Error("Por favor, preencha todos os campos.");
+      }
+      await handleAddUser();
     } catch (error) {
-      // Handle sign-up error (e.g., display error message)
-      console.error('Sign-up failed:', error);
+      console.error("Error handling submit:", error);
+      toast({
+        title: "Erro ao enviar dados",
+        description: error.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
+  };
+
+  const handleAddUser = async () => {
+    try {
+      const response = await api.signUp({ email, senha });
+      setUser([...user, response.data]);
+      toast({
+        title: "Item adicionado com sucesso! Veja em ItemsView",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      resetForm();
+    } catch (error) {
+      console.error("Error adding item:", error);
+    }
+  };
+
+  const resetForm = () => {
+    setEmail("");
+    setSenha("");
   };
 
 
@@ -24,9 +54,9 @@ const SignUpComponent = ({ onSignUp }) => {
       <Text mb={5} fontSize="xx-large">Sign Up</Text>
       <Box display="flex" flexDir="column" gap={5} mb={8}>
       <Input placeholder="Username" value={email} onChange={e => setEmail(e.target.value)} />
-      <Input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+      <Input type="password" placeholder="Password" value={senha} onChange={e => setSenha(e.target.value)} />
       </Box>
-      <Button colorScheme="blue" onClick={handleSignUp}>Sign Up</Button>
+      <Button colorScheme="blue" onClick={handleSubmit}>Sign Up</Button>
     </Box>
   );
 };
