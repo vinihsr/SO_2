@@ -1,3 +1,4 @@
+// api.js
 import axios from 'axios';
 
 const API_URL = 'http://localhost:3000/api';
@@ -18,6 +19,7 @@ export const signUp = async (userData) => {
   return await axios.post(`${API_URL}/users`, userData);
 };
 
-export const signIn = async () => { 
-  return await axios.get(`${API_URL}/users`);
+export const signIn = async (credentials) => { 
+  return await axios.post(`${API_URL}/login`, credentials);
 };
+

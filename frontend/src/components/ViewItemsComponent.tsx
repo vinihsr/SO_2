@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Box, Table, Thead, Tbody, Tr, Th, Td, Button } from '@chakra-ui/react';
 import * as api from "../services/Api";
-import { DeleteIcon } from '@chakra-ui/icons';
+import { DeleteIcon, RepeatIcon} from '@chakra-ui/icons';
 
 export default function ViewItemsComponent() {
   const [items, setItems] = useState([]);
@@ -37,6 +37,10 @@ export default function ViewItemsComponent() {
     }
   };
 
+  const handleR =  async () => {
+    window.location.reload();
+  }
+
   return (
     <Box display='flex' flexDir='column' maxW={'90%'} mx="auto" mt={8} p={6} borderWidth="2px" borderRadius="lg">
       <Table variant="simple">
@@ -51,7 +55,9 @@ export default function ViewItemsComponent() {
             <Th>Minimum Stock</Th>
             <Th>Category</Th>
             <Th>Location</Th>
-            <Th></Th>
+            <Th display="flex">
+              <Button colorScheme='blue' onClick={() => handleR()}><RepeatIcon/></Button>
+            </Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -67,7 +73,7 @@ export default function ViewItemsComponent() {
               <Td>{item.category}</Td>
               <Td>{item.location}</Td>
               <Td>
-                <Button colorScheme='blue' onClick={() => handleDeleteItem(item.id)} ><DeleteIcon/></Button>
+                <Button colorScheme='red' onClick={() => handleDeleteItem(item.id)} ><DeleteIcon/></Button>
               </Td>
             </Tr>
           ))}

@@ -6,14 +6,11 @@ import { useNavigate } from 'react-router-dom';
 
 const MainPage = () => {
   const navigate = useNavigate();
-  const [token, setToken] = useState('');
 
-  // Function to handle successful sign-in
-  const handleSignIn = (token) => {
+  const handleSignIn = () => {
     navigate('/dashboard');
   };
 
-  // Function to handle successful sign-up
   const handleSignUp = () => {
     // You can perform actions after signing up, such as displaying a success message
   };

@@ -13,10 +13,6 @@ export default function DrawerExample() {
         navigate('/')
     }
 
-    const handlePage = () => {
-        window.location.reload();
-    }
-
     const handleTabChange = (index) => {
         localStorage.setItem('activeTab', index);
     }
@@ -47,7 +43,7 @@ export default function DrawerExample() {
             <Tabs defaultIndex={activeTab} onChange={handleTabChange}>
                 <TabList h='8vh'>
                     <Tab color='#06145A' w='50vw'>item registration</Tab>
-                    <Tab color='#06145A' w='50vw' onClick={handlePage}>item view</Tab>
+                    <Tab color='#06145A' w='50vw'>item view</Tab>
                 </TabList>
 
                 <TabPanels>
