@@ -1,4 +1,17 @@
 import pool from '../db/Db.config.js';
+import multer from 'multer';
+import path from 'path';
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
 
 const ItemsController = {
   getAll: async (req, res) => {
@@ -13,21 +26,22 @@ const ItemsController = {
 
   addItems: async (req, res) => {
     try {
-      const { name, photo, description, price, sell_price, amount, minimum_stock, category, location } = req.body;
-      // Assuming you have a table named items with columns: name, photo, description, price, sell_price, amount, minimum_stock, category, location
+      const { name, description, price, sell_price, amount, minimum_stock, category, location } = req.body;
+      const photoPath = req.file ? `/uploads/${req.file.filename}` : null;
+
       const query = 'INSERT INTO items (nameItem, photo, descriptionItem, price, sell_price, amount, minimum_stock, category, location) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-      const [result] = await pool.query(query, [name, photo, description, price, sell_price, amount, minimum_stock, category, location]);
+      const [result] = await pool.query(query, [name, photoPath, description, price, sell_price, amount, minimum_stock, category, location]);
       res.json({ message: 'Item adicionado com sucesso.', id: result.insertId });
     } catch (error) {
       console.error('Erro ao adicionar item:', error);
       res.status(500).json({ message: 'Erro interno do servidor.' });
     }
   },
-  
-deleteItem: async (req, res) => {
+
+  deleteItem: async (req, res) => {
     const itemId = req.params.id;
     const query = 'DELETE FROM items WHERE id = ?';
-     try {
+    try {
       const [result] = await pool.query(query, [itemId]);
       if (result.affectedRows === 0) {
         return res.status(404).json({ message: 'Item not found.' });
@@ -40,5 +54,5 @@ deleteItem: async (req, res) => {
   }
 };
 
-export { ItemsController };
+export { ItemsController, upload };
 

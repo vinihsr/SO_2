@@ -1,10 +1,12 @@
-import { Router } from 'express';
-const router = Router();
-import { ItemsController } from '../controllers/ItemsController.js';
+import express from 'express';
+import { ItemsController, upload } from '../controllers/ItemsController.js';
+
+const router = express.Router();
 
 router.get('/items', ItemsController.getAll);
-router.post('/items', ItemsController.addItems);
+router.post('/items', upload.single('photo'), ItemsController.addItems);
 router.delete('/items/:id', ItemsController.deleteItem);
 
 export default router;
+
 
