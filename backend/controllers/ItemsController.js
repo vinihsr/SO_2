@@ -51,7 +51,18 @@ const ItemsController = {
       console.error('Error deleting item:', error);
       res.status(500).json({ message: 'Internal server error.' });
     }
+  },
+
+  searchItems: async (req, res) => {
+  const { query } = req.query;
+  try {
+    const [rows] = await pool.query('SELECT * FROM items WHERE nameItem LIKE ?', [`%${query}%`]);
+    res.json(rows);
+  } catch (error) {
+    console.error('Erro ao buscar items:', error);
+    res.status(500).json({ message: 'Erro interno do servidor.' });
   }
+}
 };
 
 export { ItemsController, upload };
