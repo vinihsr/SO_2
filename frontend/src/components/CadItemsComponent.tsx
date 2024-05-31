@@ -5,7 +5,7 @@ import * as api from '../services/Api';
 export default function CadItemsComponent() {
   const [item, setItem] = useState([]);
   const [nameItem, setNameItem] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState(null);
   const [descItem, setDescItem] = useState("");
   const [price, setPrice] = useState("");
   const [sellPrice, setSellPrice] = useState("");
@@ -14,6 +14,10 @@ export default function CadItemsComponent() {
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
   const toast = useToast();
+
+  const handleFileChange = (event) => {
+    setPhoto(event.target.files[0]);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -36,7 +40,17 @@ export default function CadItemsComponent() {
 
   const handleAddItems = async () => {
     try {
-      const response = await api.addItem({ name: nameItem, photo, description: descItem, price, sell_price: sellPrice, amount, minimum_stock: minStock, category, location });
+      const response = await api.addItem({
+        name: nameItem,
+        photo: photo,
+        description: descItem,
+        price: price,
+        sell_price: sellPrice,
+        amount: amount,
+        minimum_stock: minStock,
+        category: category,
+        location: location
+      });
       setItem([...item, response.data]);
       toast({
         title: "Item adicionado com sucesso! Veja em ItemsView",
@@ -52,7 +66,7 @@ export default function CadItemsComponent() {
 
   const resetForm = () => {
     setNameItem("");
-    setPhoto("");
+    setPhoto(null);
     setDescItem("");
     setPrice("");
     setSellPrice("");
@@ -73,7 +87,7 @@ export default function CadItemsComponent() {
             </FormControl>
             <FormControl w='30%' id="photo" mb={3}>
               <FormLabel>Photo</FormLabel>
-              <Input variant='flushed' type="text" onChange={(e) => setPhoto(e.target.value)} value={photo} />
+              <Input variant='flushed' type="file" onChange={handleFileChange} />
             </FormControl>
             <FormControl w='30%' id="price" mb={3}>
               <FormLabel>Price</FormLabel>
@@ -99,9 +113,10 @@ export default function CadItemsComponent() {
               <FormLabel>Category</FormLabel>
               <Select onChange={(e) => setCategory(e.target.value)} value={category}>
                 <option value="">Select a category</option>
-                <option value="category1">Category 1</option>
-                <option value="category2">Category 2</option>
-                <option value="category3">Category 3</option>
+                <option value="category1">Portion</option>
+                <option value="category2">Drink</option>
+                <option value="category3">Combo</option>
+                <option value="category4">Various</option>
               </Select>
             </FormControl>
             <FormControl w='30%' id="location" mb={3}>

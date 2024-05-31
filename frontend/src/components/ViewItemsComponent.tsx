@@ -1,35 +1,37 @@
+import { Box, SimpleGrid, Image, Button, Input, Text } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Button } from '@chakra-ui/react';
 import * as api from "../services/Api";
-import { DeleteIcon, RepeatIcon} from '@chakra-ui/icons';
+import { DeleteIcon, RepeatIcon, ViewIcon } from '@chakra-ui/icons';
+import ModalDescription from '../components/ModalDescription';
 
 export default function ViewItemsComponent() {
   const [items, setItems] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalDescription, setModalDescription] = useState("");
   const location = useLocation();
 
   useEffect(() => {
     if (location.state && location.state.newItem) {
-      // If new item data is passed from CadItemsComponent
       setItems([...items, location.state.newItem]);
     } else {
       fetchItems();
     }
   }, [location.state]); // Run useEffect whenever location state changes
 
-  const fetchItems = async () => {
+  const fetchItems = async (query = "") => {
     try {
-      const response = await api.getAll();
+      const response = query ? await api.SearchItem(query) : await api.getAll();
       setItems(response.data);
     } catch (error) {
       console.error("Error fetching items:", error);
     }
   };
 
-  const handleDeleteItem = async (itemId: any) => {
+  const handleDeleteItem = async (itemId) => {
     try {
       await api.deleteItem(itemId);
-      // Update the items list after successful deletion
       const updatedItems = items.filter(item => item.id !== itemId);
       setItems(updatedItems);
     } catch (error) {
@@ -37,48 +39,79 @@ export default function ViewItemsComponent() {
     }
   };
 
-  const handleR =  async () => {
+  const handleSearch = async (event) => {
+    event.preventDefault();
+    fetchItems(searchQuery);
+  };
+
+  const handleR = async () => {
     window.location.reload();
-  }
+  };
+
+  const handleOpenModal = (description) => {
+    setModalDescription(description);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setModalDescription("");
+  };
 
   return (
-    <Box display='flex' flexDir='column' maxW={'90%'} mx="auto" mt={8} p={6} borderWidth="2px" borderRadius="lg">
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th>Name</Th>
-            <Th>Photo</Th>
-            <Th>Description</Th>
-            <Th>Price</Th>
-            <Th>Sell Price</Th>
-            <Th>Amount</Th>
-            <Th>Minimum Stock</Th>
-            <Th>Category</Th>
-            <Th>Location</Th>
-            <Th display="flex">
-              <Button colorScheme='blue' onClick={() => handleR()}><RepeatIcon/></Button>
-            </Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {items.map(item => (
-            <Tr key={item.id}>
-              <Td>{item.nameItem}</Td>
-              <Td>{item.photo}</Td>
-              <Td>{item.descriptionItem}</Td>
-              <Td>{item.price}</Td>
-              <Td>{item.sell_price}</Td>
-              <Td>{item.amount}</Td>
-              <Td>{item.minimum_stock}</Td>
-              <Td>{item.category}</Td>
-              <Td>{item.location}</Td>
-              <Td>
-                <Button colorScheme='red' onClick={() => handleDeleteItem(item.id)} ><DeleteIcon/></Button>
-              </Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
+    <Box display='flex' flexDir='column' maxW={'95%'} mx="auto" mt={8} p={6} borderWidth="2px" borderRadius="lg">
+      <Box as="form" onSubmit={handleSearch} display="flex" mb={4}>
+        <Input
+          placeholder="Search by item name"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <Button type="submit" colorScheme="blue" ml={2}>Search</Button>
+        <Button colorScheme='blue' ml={2} onClick={() => handleR()}><RepeatIcon /></Button>
+      </Box>
+      <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing={6}>
+        {items.map(item => (
+          <Box key={item.id} p={5} shadow="md" borderWidth="1px" borderRadius="lg">
+            <Box justifyContent="space-between" alignItems="center">
+              <Box color="gray">
+                <Box color="black" fontWeight="bold" as="h4" lineHeight="tight">
+                  {item.nameItem}
+                </Box>
+                <Box display="flex" flexDir="column" alignItems="center">
+                  {item.photo && <Image src={item.photo} alt="Item" boxSize="150px" />}
+                </Box>
+                <SimpleGrid columns={{ sm: 1, md: 2, lg: 2 }}>
+                  <Box mt={4} display="flex" alignItems="center">
+                    Description: 
+                    <Text ml={1} color="black" isTruncated>{item.descriptionItem}</Text>
+                    {item.descriptionItem.length > 15 && (
+                      <Button size="sm" p={1} ml={2} onClick={() => handleOpenModal(item.descriptionItem)}>
+                        <ViewIcon />
+                      </Button>
+                    )}
+                  </Box>
+                  <Box display="flex" flexDir="column" pl={10} mt={4}>
+                    Sell Price:
+                    <Box color="black">{item.sell_price}</Box>
+                  </Box>
+                  <Box mt={4}>
+                    Category:
+                    <Box color="black">{item.category}</Box>
+                  </Box>
+                  <Box display="flex" justifyContent="right" mt={4}>
+                    <Button colorScheme='red' onClick={() => handleDeleteItem(item.id)}><DeleteIcon /></Button>
+                  </Box>
+                </SimpleGrid>
+              </Box>
+            </Box>
+          </Box>
+        ))}
+      </SimpleGrid>
+      <ModalDescription
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        description={modalDescription}
+      />
     </Box>
   );
 }
