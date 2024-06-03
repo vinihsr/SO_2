@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Tabs, TabList, Tab, TabPanels, TabPanel, Box } from '@chakra-ui/react';
 import SignInComponent from '../components/SignInComponent';
 import SignUpComponent from '../components/SignUpComponent';
@@ -37,7 +36,7 @@ const MainPage = () => {
             </TabPanel>
             <TabPanel>
               {/* Pass handleSignUp function to SignUpComponent */}
-              <SignUpComponent OnSignUp={handleSignUp} />
+              <SignUpComponent onSignUp={handleSignUp} />
             </TabPanel>
           </TabPanels>
         </Tabs>

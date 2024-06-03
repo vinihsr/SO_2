@@ -1,11 +1,11 @@
+// SignUpComponent.js
 import { useState } from 'react';
 import { Box, Button, Input, Text, useToast  } from '@chakra-ui/react';
 import * as api from '../services/Api.js';
 
-const SignUpComponent = ({OnSignUp}) => {
+const SignUpComponent = ({ onSignUp }) => { // Corrigido para receber corretamente onSignUp como parâmetro
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [user, setUser] = useState([]);
   const toast = useToast();
 
   const handleSubmit = async (event) => {
@@ -30,16 +30,24 @@ const SignUpComponent = ({OnSignUp}) => {
   const handleAddUser = async () => {
     try {
       const response = await api.signUp({ email, senha });
-      setUser([...user, response.data]);
+      // Aqui chamamos a função onSignUp com os dados do novo usuário
+      onSignUp(response.data);
       toast({
-        title: "Item adicionado com sucesso! Veja em ItemsView",
+        title: "Usuário cadastrado com sucesso!",
         status: "success",
         duration: 3000,
         isClosable: true,
       });
       resetForm();
     } catch (error) {
-      console.error("Error adding item:", error);
+      console.error("Erro ao adicionar usuário:", error);
+      toast({
+        title: "Erro ao cadastrar usuário",
+        description: error.response?.data?.message || 'Erro interno do servidor',
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
@@ -48,13 +56,12 @@ const SignUpComponent = ({OnSignUp}) => {
     setSenha("");
   };
 
-
   return (
     <Box minH="40vh" textAlign='center'>
       <Text mb={5} fontSize="xx-large">Sign Up</Text>
       <Box display="flex" flexDir="column" gap={5} mb={8}>
-      <Input placeholder="Username" value={email} onChange={e => setEmail(e.target.value)} />
-      <Input type="password" placeholder="Password" value={senha} onChange={e => setSenha(e.target.value)} />
+        <Input placeholder="Username" value={email} onChange={e => setEmail(e.target.value)} />
+        <Input type="password" placeholder="Password" value={senha} onChange={e => setSenha(e.target.value)} />
       </Box>
       <Button colorScheme="blue" onClick={handleSubmit}>Sign Up</Button>
     </Box>
@@ -62,4 +69,3 @@ const SignUpComponent = ({OnSignUp}) => {
 };
 
 export default SignUpComponent;
-
