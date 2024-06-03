@@ -1,5 +1,5 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Box, Img, Text, Menu, MenuButton, MenuList, MenuItem, IconButton } from '@chakra-ui/react'
-import logo from '../assets/logo.png'; // Adjust the path based on the location of your logo.png file
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Box, Img, Text, Menu, MenuButton, MenuList, MenuItem, IconButton, Flex, Center } from '@chakra-ui/react'
+import logo from '../assets/soTeste.png'; // Adjust the path based on the location of your logo.png file
 import { HamburgerIcon } from '@chakra-ui/icons'
 import CadItems from '../components/CadItemsComponent';
 import ViewItems from '../components/ViewItemsComponent';
@@ -18,13 +18,14 @@ export default function DrawerExample() {
     }
 
     return (
-        <Box w='100%' >
-            <Box display='flex' justifyContent='space-between' borderBottom='solid 1px lightgray' boxShadow="0px 1px lightgray">
-                <Box alignItems='center' display='flex' h='12vh'>
-                    <Img src={logo} w='4vw' py={1} mx={3} alt='logo' />
-                    <Text fontSize='4.5vh' letterSpacing="4px" fontWeight='bold' color='#06145A'>SO TEST</Text>
-                </Box>
-                <Box alignItems='center' display='flex' mx={5}>
+        <Box w='100%'>
+            <Flex borderBottom='solid 1px lightgray' boxShadow="0px 1px lightgray" h='10vh' alignItems='center' position="relative">
+                <Center w='90vw' position="absolute" left="51%" transform="translateX(-50%)">
+                    <Text fontSize='4.5vh' letterSpacing="4px" fontWeight='bold' color='#3182ce' mr={2}>S.O</Text>
+                    <Img src={logo} w='4%' py={1} mx={5} alt='logo' />
+                    <Text fontSize='4.5vh' letterSpacing="4px" fontWeight='bold' color='#3182ce' ml={2}>TEST</Text>
+                </Center>
+                <Box ml="auto" mr={5}>
                     <Menu>
                         <MenuButton
                             as={IconButton}
@@ -39,11 +40,11 @@ export default function DrawerExample() {
                         </MenuList>
                     </Menu>
                 </Box>
-            </Box>
+            </Flex>
             <Tabs defaultIndex={activeTab} onChange={handleTabChange}>
                 <TabList h='8vh'>
-                    <Tab color='#06145A' w='50vw'>item registration</Tab>
-                    <Tab color='#06145A' w='50vw'>item view</Tab>
+                    <Tab color='#3182ce' w='50vw'>Item Registration</Tab>
+                    <Tab color='#3182ce' w='50vw'>Item View</Tab>
                 </TabList>
 
                 <TabPanels>

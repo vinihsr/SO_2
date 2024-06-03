@@ -1,17 +1,11 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button } from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button } from '@chakra-ui/react';
 
-interface ModalDescriptionProps {
-  isOpen: boolean;
-  onClose: () => void;
-  description: string;
-}
-
-const ModalDescription: React.FC<ModalDescriptionProps> = ({ isOpen, onClose, description }) => {
+function ModalDescription({ isOpen, onClose, description }) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Description</ModalHeader>
+      <ModalContent w="90%">
+        <ModalHeader>Item Description</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           {description}
@@ -24,6 +18,6 @@ const ModalDescription: React.FC<ModalDescriptionProps> = ({ isOpen, onClose, de
       </ModalContent>
     </Modal>
   );
-};
+}
 
 export default ModalDescription;

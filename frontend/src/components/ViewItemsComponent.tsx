@@ -1,4 +1,4 @@
-import { Box, SimpleGrid, Image, Button, Input, Text } from '@chakra-ui/react';
+import { Box, SimpleGrid, Image, Button, Input, Text, useBreakpointValue } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import * as api from "../services/Api";
@@ -11,6 +11,7 @@ export default function ViewItemsComponent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalDescription, setModalDescription] = useState("");
   const location = useLocation();
+  const gridColumns = useBreakpointValue({ base: 1, md: 2, lg: 3 });
 
   useEffect(() => {
     if (location.state && location.state.newItem) {
@@ -18,7 +19,7 @@ export default function ViewItemsComponent() {
     } else {
       fetchItems();
     }
-  }, [location.state]); // Run useEffect whenever location state changes
+  }, [location.state]);
 
   const fetchItems = async (query = "") => {
     try {
@@ -59,7 +60,7 @@ export default function ViewItemsComponent() {
   };
 
   return (
-    <Box display='flex' flexDir='column' maxW={'95%'} mx="auto" mt={8} p={6} borderWidth="2px" borderRadius="lg">
+    <Box display='flex' flexDir='column' maxW={'95%'} mx="auto" mt={6} p={6} borderWidth="2px" borderRadius="lg">
       <Box as="form" onSubmit={handleSearch} display="flex" mb={4}>
         <Input
           placeholder="Search by item name"
@@ -67,9 +68,9 @@ export default function ViewItemsComponent() {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <Button type="submit" colorScheme="blue" ml={2}>Search</Button>
-        <Button colorScheme='blue' ml={2} onClick={() => handleR()}><RepeatIcon /></Button>
+        <Button colorScheme='blue' ml={2} onClick={handleR}><RepeatIcon /></Button>
       </Box>
-      <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing={6}>
+      <SimpleGrid columns={gridColumns} spacing={6}>
         {items.map(item => (
           <Box key={item.id} p={5} shadow="md" borderWidth="1px" borderRadius="lg">
             <Box justifyContent="space-between" alignItems="center">
@@ -80,17 +81,19 @@ export default function ViewItemsComponent() {
                 <Box display="flex" flexDir="column" alignItems="center">
                   {item.photo && <Image src={item.photo} alt="Item" boxSize="150px" />}
                 </Box>
-                <SimpleGrid columns={{ sm: 1, md: 2, lg: 2 }}>
-                  <Box mt={4} display="flex" alignItems="center">
+                <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={2}>
+                  <Box mt={4} alignItems="center">
                     Description: 
-                    <Text ml={1} color="black" isTruncated>{item.descriptionItem}</Text>
-                    {item.descriptionItem.length > 15 && (
-                      <Button size="sm" p={1} ml={2} onClick={() => handleOpenModal(item.descriptionItem)}>
-                        <ViewIcon />
-                      </Button>
-                    )}
+                    <Box display='flex'>
+                      <Text ml={1} color="black" isTruncated maxWidth="150px">{item.descriptionItem}</Text>
+                      {item.descriptionItem.length > 15 && (
+                        <Button size="sm" p={1} ml={2} onClick={() => handleOpenModal(item.descriptionItem)}>
+                          <ViewIcon />
+                        </Button>
+                      )}
+                    </Box>
                   </Box>
-                  <Box display="flex" flexDir="column" pl={10} mt={4}>
+                  <Box ml={10} mt={4}>
                     Sell Price:
                     <Box color="black">{item.sell_price}</Box>
                   </Box>
@@ -98,7 +101,7 @@ export default function ViewItemsComponent() {
                     Category:
                     <Box color="black">{item.category}</Box>
                   </Box>
-                  <Box display="flex" justifyContent="right" mt={4}>
+                  <Box display="flex" justifyContent="flex-end" mt={4}>
                     <Button colorScheme='red' onClick={() => handleDeleteItem(item.id)}><DeleteIcon /></Button>
                   </Box>
                 </SimpleGrid>
