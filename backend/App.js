@@ -16,10 +16,10 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(json());
 app.use('/api', itemsRouter);
-app.use('/api', UserRouter);
+app.use('/api/users', UserRouter);
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
