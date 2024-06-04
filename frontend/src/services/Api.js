@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = 'http://localhost:3000/api';
 
 export const getAll = async () => {
   return await axios.get(`${API_URL}/items`);
@@ -27,7 +27,7 @@ export const signUp = async (userData) => {
 };
 
 export const signIn = async (credentials) => {
-  return await axios.post(`${API_URL}/login`, credentials);
+  return await axios.post(`${API_URL}/users`, credentials);
 };
 
 export const SearchItem = async (query) => {
