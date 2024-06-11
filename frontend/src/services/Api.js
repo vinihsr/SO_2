@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://3.144.249.248:3002/api';
 
 export const getAll = async () => {
   return await axios.get(`${API_URL}/items`);
@@ -33,4 +33,3 @@ export const signIn = async (credentials) => {
 export const SearchItem = async (query) => {
   return await axios.get(`${API_URL}/search`, { params: { query } })
 };
-
