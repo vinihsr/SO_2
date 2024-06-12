@@ -113,10 +113,10 @@ export default function CadItemsComponent() {
               <FormLabel>Category</FormLabel>
               <Select onChange={(e) => setCategory(e.target.value)} value={category}>
                 <option value="">Select a category</option>
-                <option value="category1">Portion</option>
-                <option value="category2">Drink</option>
-                <option value="category3">Combo</option>
-                <option value="category4">Various</option>
+                <option value="Portion">Portion</option>
+                <option value="Drink">Drink</option>
+                <option value="Combo">Combo</option>
+                <option value="Various">Various</option>
               </Select>
             </FormControl>
             <FormControl w='30%' id="location" mb={3}>
