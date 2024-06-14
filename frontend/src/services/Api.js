@@ -1,7 +1,6 @@
-// Api.js
 import axios from 'axios';
 
-const API_URL = 'http://3.144.249.248/:3002/api';
+const API_URL = 'http://3.144.249.248:3002/api';
 
 export const getAll = async () => {
   return await axios.get(`${API_URL}/items`);
@@ -24,24 +23,13 @@ export const deleteItem = async (itemId) => {
 };
 
 export const signUp = async (userData) => {
-  return await axios.post(`${API_URL}/users/register`, userData);
+  return await axios.post(`${API_URL}/users`, userData);
 };
 
 export const signIn = async (credentials) => {
-  const response = await axios.post(`${API_URL}/users/login`, credentials);
-  localStorage.setItem('token', response.data.token);
-  return response.data;
-};
-
-export const getDashboardData = async () => {
-  const token = localStorage.getItem('token');
-  return await axios.get(`${API_URL}/users/dashboard`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  });
+  return await axios.post(`${API_URL}/users`, credentials);
 };
 
 export const SearchItem = async (query) => {
-  return await axios.get(`${API_URL}/search`, { params: { query } });
+  return await axios.get(`${API_URL}/search`, { params: { query } })
 };

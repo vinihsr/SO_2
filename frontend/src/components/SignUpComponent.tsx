@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState, useEffect } from 'react';
-import { Box, Button, Input, Text, useToast } from '@chakra-ui/react';
+// SignUpComponent.js
+import { useState } from 'react';
+import { Box, Button, Input, Text, useToast  } from '@chakra-ui/react';
 import * as api from '../services/Api.js';
 
-const SignUpComponent = ({ onSignUp }) => {
+const SignUpComponent = ({ onSignUp }) => { // Corrigido para receber corretamente onSignUp como parâmetro
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [,setIsSubmitting] = useState(false); // Estado para controlar a submissão
   const toast = useToast();
 
   const handleSubmit = async (event) => {
@@ -15,7 +14,6 @@ const SignUpComponent = ({ onSignUp }) => {
       if (!email || !senha) {
         throw new Error("Por favor, preencha todos os campos.");
       }
-      setIsSubmitting(true); // Marca a submissão como iniciada
       await handleAddUser();
     } catch (error) {
       console.error("Error handling submit:", error);
@@ -26,14 +24,13 @@ const SignUpComponent = ({ onSignUp }) => {
         duration: 3000,
         isClosable: true,
       });
-    } finally {
-      setIsSubmitting(false); // Marca a submissão como concluída, independentemente do resultado
     }
   };
 
   const handleAddUser = async () => {
     try {
       const response = await api.signUp({ email, senha });
+      // Aqui chamamos a função onSignUp com os dados do novo usuário
       onSignUp(response.data);
       toast({
         title: "Usuário cadastrado com sucesso!",
@@ -59,23 +56,8 @@ const SignUpComponent = ({ onSignUp }) => {
     setSenha("");
   };
 
-  useEffect(() => {
-    const handleKeyPress = async (event) => {
-      if (event.key === "Enter" && document.activeElement.tagName === "INPUT" && document.activeElement.closest('.signup-form')) {
-        setIsSubmitting(true); // Marca a submissão como iniciada
-        await handleSubmit(event);
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyPress);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [handleSubmit]);
-
   return (
-    <Box className="signup-form" minH="40vh" textAlign='center'>
+    <Box minH="40vh" textAlign='center'>
       <Text mb={5} fontSize="xx-large">Sign Up</Text>
       <Box display="flex" flexDir="column" gap={5} mb={8}>
         <Input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />

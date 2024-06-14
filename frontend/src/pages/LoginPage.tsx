@@ -1,9 +1,7 @@
-import { Tabs, TabList, Tab, TabPanels, TabPanel, Box, Img } from '@chakra-ui/react';
+import { Tabs, TabList, Tab, TabPanels, TabPanel, Box } from '@chakra-ui/react';
 import SignInComponent from '../components/SignInComponent';
 import SignUpComponent from '../components/SignUpComponent';
 import { useNavigate } from 'react-router-dom';
-import logo from '../assets/soTeste.png'; // Ajuste o caminho com base na localização do seu arquivo logo.png
-
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -18,15 +16,14 @@ const MainPage = () => {
 
   return (
     <Box display="flex" h="100vh" alignItems="center" justifyContent="center">
-      <Box marginLeft={10}><Img src={logo} w='70%' py={1} mx={5} alt='logo' /></Box>
-      <Box minW="40%" minH="50%">
+      <Box minW="40%" minH="70%">
         <Tabs
           isFitted
           variant="rouded"
+          backgroundColor="whitesmoke"
           p={10}
           borderRadius={20}
-          boxShadow={'20px 20px 1000px lightgrey'}
-          marginRight={10}
+          boxShadow={'20px 20px 40px lightgrey'}
         >
           <TabList mb="1rem">
             <Tab _selected={{ color: 'white', bg: 'blue.500' }}>Sign In</Tab>
