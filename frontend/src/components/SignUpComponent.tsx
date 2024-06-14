@@ -60,7 +60,7 @@ const SignUpComponent = ({ onSignUp }) => { // Corrigido para receber corretamen
     <Box minH="40vh" textAlign='center'>
       <Text mb={5} fontSize="xx-large">Sign Up</Text>
       <Box display="flex" flexDir="column" gap={5} mb={8}>
-        <Input placeholder="Username" value={email} onChange={e => setEmail(e.target.value)} />
+        <Input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
         <Input type="password" placeholder="Password" value={senha} onChange={e => setSenha(e.target.value)} />
       </Box>
       <Button colorScheme="blue" onClick={handleSubmit}>Sign Up</Button>

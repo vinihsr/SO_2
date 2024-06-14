@@ -13,12 +13,9 @@ const __dirname = dirname(__filename);
 const app = express();
 
 app.use(cors({
-  origin: 'http://3.144.249.248/',
-  optionsSuccessStatus: 200 // algumas versões do CORS podem precisar disso
-}));
-app.use(cors({
-  origin: 'http://localhost/',
-  optionsSuccessStatus: 200 // algumas versões do CORS podem precisar disso
+  origin: 'http://3.144.249.248', // Allow only this origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
+  credentials: true // Allow cookies to be sent
 }));
 app.use(bodyParser.json());
 app.use(json());
