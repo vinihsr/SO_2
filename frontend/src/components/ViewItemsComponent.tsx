@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, SimpleGrid, Image, Button, Input, Text, useBreakpointValue } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -104,7 +105,7 @@ export default function ViewItemsComponent() {
                   <Box display="flex" justifyContent="flex-end" mt={4}>
                     <Button colorScheme='red' onClick={() => handleDeleteItem(item.id)}><DeleteIcon /></Button>
                   </Box>
-                </SimpleGrid>
+                </SimpleGrid> 
               </Box>
             </Box>
           </Box>

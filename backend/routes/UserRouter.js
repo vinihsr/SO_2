@@ -1,9 +1,8 @@
-// router.js
 import { Router } from 'express';
-const router = Router();
 import UserController from '../controllers/UserController.js';
+const router = Router();
 
-router.post('/', UserController.addUsers);
-router.post('/', UserController.logUser); // Nova rota de login
+router.post('/register', UserController.addUsers);
+router.post('/login', UserController.logUser);
 
 export default router;
